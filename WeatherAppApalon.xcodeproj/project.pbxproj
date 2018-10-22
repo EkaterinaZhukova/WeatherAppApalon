@@ -16,6 +16,8 @@
 		C432117C217A310A0018EDDB /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C432117B217A310A0018EDDB /* DetailVC.swift */; };
 		C432117E217CB0BB0018EDDB /* OpenWeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C432117D217CB0BB0018EDDB /* OpenWeatherService.swift */; };
 		C4321180217DDA190018EDDB /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = C432117F217DDA190018EDDB /* Weather.swift */; };
+		C4DACE5C217E241300FD5E24 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DACE5B217E241300FD5E24 /* WeatherModel.swift */; };
+		C4DACE60217E57DA00FD5E24 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DACE5F217E57DA00FD5E24 /* HistoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		C432117B217A310A0018EDDB /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		C432117D217CB0BB0018EDDB /* OpenWeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherService.swift; sourceTree = "<group>"; };
 		C432117F217DDA190018EDDB /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		C4DACE5B217E241300FD5E24 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
+		C4DACE5F217E57DA00FD5E24 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,17 +80,43 @@
 		C4321168217A2E4F0018EDDB /* WeatherAppApalon */ = {
 			isa = PBXGroup;
 			children = (
-				C4321169217A2E4F0018EDDB /* AppDelegate.swift */,
-				C432116D217A2E4F0018EDDB /* Main.storyboard */,
-				C432116B217A2E4F0018EDDB /* MapVC.swift */,
-				C432117D217CB0BB0018EDDB /* OpenWeatherService.swift */,
-				C432117B217A310A0018EDDB /* DetailVC.swift */,
+				C4DACE5A217E232800FD5E24 /* Controller */,
+				C4DACE59217E232100FD5E24 /* Model */,
+				C4DACE58217E231900FD5E24 /* View */,
 				C4321170217A2E500018EDDB /* Assets.xcassets */,
-				C4321172217A2E500018EDDB /* LaunchScreen.storyboard */,
 				C4321175217A2E500018EDDB /* Info.plist */,
-				C432117F217DDA190018EDDB /* Weather.swift */,
 			);
 			path = WeatherAppApalon;
+			sourceTree = "<group>";
+		};
+		C4DACE58217E231900FD5E24 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C432116D217A2E4F0018EDDB /* Main.storyboard */,
+				C4321172217A2E500018EDDB /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C4DACE59217E232100FD5E24 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C432117D217CB0BB0018EDDB /* OpenWeatherService.swift */,
+				C432117F217DDA190018EDDB /* Weather.swift */,
+				C4DACE5B217E241300FD5E24 /* WeatherModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C4DACE5A217E232800FD5E24 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C432117B217A310A0018EDDB /* DetailVC.swift */,
+				C432116B217A2E4F0018EDDB /* MapVC.swift */,
+				C4321169217A2E4F0018EDDB /* AppDelegate.swift */,
+				C4DACE5F217E57DA00FD5E24 /* HistoryViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		F7F5397D29ED83BC953DCCEB /* Frameworks */ = {
@@ -221,6 +251,8 @@
 				C432117C217A310A0018EDDB /* DetailVC.swift in Sources */,
 				C432117E217CB0BB0018EDDB /* OpenWeatherService.swift in Sources */,
 				C432116A217A2E4F0018EDDB /* AppDelegate.swift in Sources */,
+				C4DACE5C217E241300FD5E24 /* WeatherModel.swift in Sources */,
+				C4DACE60217E57DA00FD5E24 /* HistoryViewController.swift in Sources */,
 				C4321180217DDA190018EDDB /* Weather.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

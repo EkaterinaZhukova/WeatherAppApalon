@@ -31,6 +31,16 @@ class Weather{
                     main = dict?["main"] as? String
                     icon = dict?["icon"] as? String
                 }
+        
+    }
+    init(weatherModel:WeatherModel) {
+        self.temp = weatherModel.temp
+        self.tempMin = weatherModel.tempMin
+        self.tempMax = weatherModel.tempMax
+        self.dateTime = weatherModel.dateTime
+        self.icon = weatherModel.icon
+        self.main = weatherModel.main
+        
     }
     
 }

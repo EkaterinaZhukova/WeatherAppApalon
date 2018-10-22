@@ -9,17 +9,19 @@
 import UIKit
 import MapKit
 import Moya
-
+import RealmSwift
 
 let kShowDetail = "kShowDetail"
 struct ForecastParameter{
     var lat = ""
     var lon = ""
     let aPPID = "3c7c6440876f63db87401b8ac41ee0d6"
+    
 }
 extension MapVC: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weatherArr.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,8 +57,8 @@ extension MapVC: MKMapViewDelegate{
         placesTableView.rowHeight = 50
         placesTableView.dataSource = self
         placesTableView.delegate = self
-       
         pinView?.addSubview(placesTableView)
+        
         return pinView
         
     }
@@ -68,12 +70,18 @@ extension MapVC: MKMapViewDelegate{
 class MapVC: UIViewController{
     var placeData = [String]()
     var weatherArr = [Weather]()
+    let realm = try! Realm()
     @IBOutlet weak var worldMapView: MKMapView!
     var parameters: ForecastParameter?
     override func viewDidLoad() {
         super.viewDidLoad()
         worldMapView.delegate = self
         addGesture()
+        
+//        let weathers = realm.objects(WeatherModel.self)
+//        for item in weathers{
+//            print(item)
+//        }
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -86,8 +94,6 @@ class MapVC: UIViewController{
     
     
     @objc func gestureRecognizerShouldBegin(gestureRecognizer:UIGestureRecognizer) -> Bool{
-        
-        
         if gestureRecognizer.state == .began{
             worldMapView.removeAnnotations(worldMapView.annotations)
             let point = gestureRecognizer.location(in: worldMapView)
@@ -107,18 +113,15 @@ class MapVC: UIViewController{
                         for i in 0...2{
                             let wr = Weather(data: degree[i])
                             self?.weatherArr.append(wr)
-                        }
-                    }
-                    if let city = dic["city"] as? [AnyHashable: Any]{
-                        let name = city["name"] as? String
-                        print(name)
-                        print(self?.weatherArr.count)
+                            let model = WeatherModel.init(weather: wr)
+                            try! self?.realm.write {
+                                self?.realm.add(model)
+                            }
+                       }
                     }
                     self?.worldMapView.addAnnotation(ann)
-                    
-                    
                 }else {
-                    print(result.error)
+                    print(result.error!)
                 }
                 
             }
@@ -135,5 +138,12 @@ class MapVC: UIViewController{
             detailVC.parameters = param
         }
     }
+    
+    @IBAction func clearHistory(_ sender: Any) {
+        try! realm.write {
+            realm.delete(realm.objects(WeatherModel.self))
+        }
+    }
+    
 }
 
