@@ -12,21 +12,16 @@ import RealmSwift
 class HistoryViewController: UITableViewController {
 
     var weatherArr = [Weather]()
-
     override func viewDidLoad() {
-        let realm = try! Realm()
         super.viewDidLoad()
 
-        let modelArray = realm.objects(WeatherModel.self)
-        for item in modelArray{
-            weatherArr.append(Weather(weatherModel: item))
-            
+        DispatchQueue(label: "realm",qos: .utility).async {[weak self] in
+            let realm = try! Realm()
+            let modelArray = realm.objects(WeatherModel.self)
+            for item in modelArray{
+                self?.weatherArr.append(Weather(weatherModel: item))
+            }
         }
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -49,7 +44,7 @@ class HistoryViewController: UITableViewController {
             let image = UIImage(data: data!)
             cell.imageView?.image = image
         }
-        cell.textLabel?.text = "\(weatherArr[indexPath.row].temp!.rounded())˚C"
+        cell.textLabel?.text = "\(weatherArr[indexPath.row].temp!.rounded())˚C - \(String(describing: weatherArr[indexPath.row].city!))"
         cell.detailTextLabel?.text = weatherArr[indexPath.row].dateTime
         return cell
     }

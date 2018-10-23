@@ -15,7 +15,7 @@ class WeatherModel:Object{
     @objc dynamic var dateTime:String? = nil
     @objc dynamic var main:String? = nil
     @objc dynamic var icon:String? = nil
-    
+    @objc dynamic var city:String? = nil
     
     convenience init(weather: Weather){
         self.init()
@@ -25,5 +25,6 @@ class WeatherModel:Object{
         self.dateTime = weather.dateTime
         self.main = weather.main!
         self.icon = weather.icon!
+        self.city = weather.city!
     }
 }

@@ -17,8 +17,8 @@ class Weather{
     
     var main:String?
     var icon:String?
-    
-    init(data: Any) {
+    var city:String?
+    init(data: Any,city:String?) {
         guard let  dic = data as? [AnyHashable: Any] else { return }
                 dateTime = dic["dt_txt"] as? String
                 if let main = dic["main"] as? [AnyHashable: Any]{
@@ -31,6 +31,7 @@ class Weather{
                     main = dict?["main"] as? String
                     icon = dict?["icon"] as? String
                 }
+        self.city = city
         
     }
     init(weatherModel:WeatherModel) {
@@ -40,6 +41,7 @@ class Weather{
         self.dateTime = weatherModel.dateTime
         self.icon = weatherModel.icon
         self.main = weatherModel.main
+        self.city = weatherModel.city
         
     }
     
