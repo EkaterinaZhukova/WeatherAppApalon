@@ -41,31 +41,59 @@ extension MapVC: UITableViewDataSource,UITableViewDelegate{
         
     }
 }
-extension MapVC: MKMapViewDelegate{
+
+extension MapVC: MKMapViewDelegate {
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if(annotation is MKUserLocation){
+        if annotation is MKUserLocation {
             return nil
         }
         let reuseId = "pin"
-        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
-        pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-        pinView?.frame = CGRect(x: 0, y: 0, width: 100, height: 190)
-        pinView!.canShowCallout = true
-        pinView!.animatesDrop = true
-        let placesTableView = UITableView(frame: CGRect(x: 0, y: 0, width: 180, height: 150))
+        let pinView: MKPinAnnotationView
+        if let reusedPinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView {
+            reusedPinView.annotation = annotation
+            pinView = reusedPinView
+        } else {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        }
+        pinView.leftCalloutAccessoryView = nil
+        pinView.rightCalloutAccessoryView = nil
+        pinView.canShowCallout = true
+        pinView.animatesDrop = true
+        
+        let placesTableView = UITableView()
         placesTableView.rowHeight = 50
         placesTableView.dataSource = self
         placesTableView.delegate = self
-        pinView?.addSubview(placesTableView)
+
+        let widthConstraint = NSLayoutConstraint(item: placesTableView,
+                                                 attribute: .width,
+                                                 relatedBy: .equal,
+                                                 toItem: nil,
+                                                 attribute: .notAnAttribute,
+                                                 multiplier: 1,
+                                                 constant: 180)
+        placesTableView.addConstraint(widthConstraint)
+        
+        let heightConstraint = NSLayoutConstraint(item: placesTableView,
+                                                  attribute: .height,
+                                                  relatedBy: .equal,
+                                                  toItem: nil,
+                                                  attribute: .notAnAttribute,
+                                                  multiplier: 1,
+                                                  constant: 150)
+        placesTableView.addConstraint(heightConstraint)
+        
+        pinView.detailCalloutAccessoryView = placesTableView
         
         return pinView
-        
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         print("select")
     }
+    
 }
 class MapVC: UIViewController{
     var placeData = [String]()
@@ -110,7 +138,7 @@ class MapVC: UIViewController{
                     guard let  dic = jsonString as? [AnyHashable: Any] else { return }
                     
                     if let degree = dic["list"] as? [Any]{
-                        for i in 0...2{
+                        for i in 0...4{
                             let wr = Weather(data: degree[i])
                             self?.weatherArr.append(wr)
                             let model = WeatherModel.init(weather: wr)
