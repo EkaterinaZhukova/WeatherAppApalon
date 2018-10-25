@@ -80,7 +80,7 @@ class MapVC: UIViewController{
             worldMapView.removeAnnotations(worldMapView.annotations)
             
             let point = gestureRecognizer.location(in: worldMapView)
-            let tapPoint = worldMapView.convert(point, toCoordinateFrom: view)
+            let tapPoint = worldMapView.convert(point, toCoordinateFrom: worldMapView)
             let ann = MKPointAnnotation()
             ann.coordinate = tapPoint
             
@@ -133,31 +133,16 @@ extension MapVC: UITableViewDataSource,UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "id")
-        cell.textLabel?.text = String(weatherArr[indexPath.row].temp!) + "˚C"
-        cell.detailTextLabel?.text = weatherArr[indexPath.row].main
+        let weather = weatherArr[indexPath.row]
         
-        //        DispatchQueue.global().async {[weak self] in
-        //            let data = try? Data(contentsOf: URL(string: "http://openweathermap.org/img/w/\(String(describing: self?.weatherArr[indexPath.row].icon!)).png")!)
-        //            DispatchQueue.main.async {
-        //                if(data != nil){
-        //                    let image = UIImage(data: data!)
-        //                    cell.imageView?.image = image
-        //
-        //                    self?.worldMapView.reloadInputViews()
-        //                }
-        //            }
-        //        }
-        
+        cell.textLabel?.text = String(weather.temp!) + "˚C"
+        cell.detailTextLabel?.text = weather.main
         let data = try? Data(contentsOf: URL(string: "http://openweathermap.org/img/w/\(String(describing: self.weatherArr[indexPath.row].icon!)).png")!)
-        
         if(data != nil){
             let image = UIImage(data: data!)
             cell.imageView?.image = image
-            
             self.worldMapView.reloadInputViews()
-            
         }
-        
         return cell;
     }
 }

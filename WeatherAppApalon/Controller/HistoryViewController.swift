@@ -11,6 +11,7 @@ import RealmSwift
 
 class HistoryViewController: UITableViewController {
 
+    let reuseCellId = "dataBaseId"
     var weatherArr = [Weather]()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +19,8 @@ class HistoryViewController: UITableViewController {
         DispatchQueue(label: "realm",qos: .utility).async {[weak self] in
             let realm = try! Realm()
             let modelArray = realm.objects(WeatherModel.self)
-            for item in modelArray{
-                self?.weatherArr.append(Weather(weatherModel: item))
+            for i in (0 ..< modelArray.count).reversed(){
+                self?.weatherArr.append(Weather(weatherModel: modelArray[i]))
             }
         }
     }
@@ -38,7 +39,7 @@ class HistoryViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: reuseCellId)
         let data = try? Data(contentsOf: URL(string: "http://openweathermap.org/img/w/\(weatherArr[indexPath.row].icon!).png")!)
         if(data != nil){
             let image = UIImage(data: data!)
